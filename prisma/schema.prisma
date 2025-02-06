@@ -1,10 +1,12 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Casinos {
@@ -21,12 +23,12 @@ model Casinos {
 }
 
 model tableReports {
-  id       String @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
-  title    String
-  casinoName String
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title          String
+  casinoName     String
+  message        String
   casinoLocation String
-  message     String
-  published Boolean  @default(false)
-  createdAt DateTime @default(dbgenerated("now()"))
-  
+  createdAt      DateTime @default(now())
+  published      Boolean  @default(false)
 }
+
